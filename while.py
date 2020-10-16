@@ -91,8 +91,8 @@ while total:
         # get the topic and assign it to a var. topic_title
         topic_title = list(topic.keys())[0]
         # get the number of questions from the topic
-        count = topic.get(topic_title)
-        for i in range(count):
+        number_of_qs = topic.get(topic_title)
+        for i in range(number_of_qs):
             for question in question_bank:
                 if question.get('subject') == subject\
                     and question.get('level') == level\
