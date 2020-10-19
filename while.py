@@ -1,5 +1,5 @@
 # import random
-from random import randint
+from random import randint, choice
 
 # print(random.randint(10,100))
 
@@ -103,3 +103,90 @@ while total:
             total -=1
     
 print(questions)
+
+print('\n')
+print('\n')
+print('\n')
+#Question 4
+"""
+Create a question bank that hold 5 questions, each
+question should have the following attributes:
+subject, class, topic, options and the question itself.
+
+Create a while loop that will run and generate 3
+questions from the question bank. The while loop
+should only stop if all 3 questions
+have been found or if it cant find anymore questions.
+
+print your generated questions at the end.
+"""
+
+qb = [
+    {'subject':'english',
+    'class':'primary six',
+    'topic':'verbs',
+    'question':'Ali likes to jump when no one\'s around. jump in the sentence above is a/an _______?',
+    'options':['pronoun', 'adverb', 'adjective', 'verb']
+    },
+    {'subject':'english',
+    'class':'primary six',
+    'topic':'pronouns',
+    'question':'He is a very naughty boy. He in the sentence above is a/an _______?',
+    'options':['pronoun', 'adverb', 'adjective', 'verb']
+    },
+    {'subject':'english',
+    'class':'primary six',
+    'topic':'adjectives',
+    'question':'Ali sings beautifully. beautifully in the sentence above is a/an _______?',
+    'options':['pronoun', 'adverb', 'adjective', 'verb']
+    },
+    {'subject':'english',
+    'class':'primary six',
+    'topic':'sentences',
+    'question':'Ali the man. This is a complete sentence',
+    'options':['False', 'True']
+    },
+    {'subject':'english',
+    'class':'primary six',
+    'topic':'tenses',
+    'question':"'Sat', 'Left', 'Told' all are past tenses",
+    'options':['False', 'True']
+    }
+]
+
+qs_needed = 3
+generated_qs = []
+
+while qs_needed > 0:
+    q = choice(qb)
+    if q.get('question') not in generated_qs:
+        generated_qs.append(q.get('question'))
+        qs_needed -= 1
+
+print(len(generated_qs))
+print(generated_qs)
+
+print('\n')
+print('\n')
+print('\n')
+print('\n')
+
+# Question 5
+'''
+Using the qb above generate topic based questions
+of your choice.
+'''
+
+topics = {'verbs':1, 'adjectives':1, 'tenses':1}
+total_qs = 3
+gqs = []
+
+while total_qs > 0:
+    for t in topics:
+        for q in qb:
+            if q.get('topic') == t:
+                gqs.append(q.get('question'))
+        total_qs -= 1
+
+print(len(gqs))
+print(gqs)
