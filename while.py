@@ -190,3 +190,23 @@ while total_qs > 0:
 
 print(len(gqs))
 print(gqs)
+
+print('\n')
+print('\n')
+print('\n')
+
+
+# Question 6
+'''
+Create a list containing 5 students,
+each student should have the following attribute;
+name, year, state, country and ethnicity. Atleast 3
+students should come from the same state, another 3
+from the same ethnic group, another 3 born the same
+year.
+
+Using a while loop, get 3 students born the same year,
+2 from the same state and 2 born the same year.
+
+print your result at the end.
+'''
