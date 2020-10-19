@@ -93,7 +93,9 @@ while total:
         # get the number of questions from the topic
         number_of_qs = topic.get(topic_title)
         for i in range(number_of_qs):
+            #range(number_of_qs) = [0]
             for question in question_bank:
+                #question stands for each dict in question_bank
                 if question.get('subject') == subject\
                     and question.get('level') == level\
                         and question.get('topic') == topic_title:
