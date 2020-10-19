@@ -200,9 +200,9 @@ print('\n')
 '''
 Create a list containing 5 students,
 each student should have the following attribute;
-name, year, state, country and ethnicity. Atleast 3
+name, year, state, country and language. Atleast 3
 students should come from the same state, another 3
-from the same ethnic group, another 3 born the same
+of the same language, another 3 born the same
 year.
 
 Using a while loop, get 3 students born the same year,
