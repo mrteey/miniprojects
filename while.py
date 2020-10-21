@@ -154,7 +154,7 @@ qb = [
     }
 ]
 
-qs_needed = 3
+qs_needed = 2
 generated_qs = []
 
 while qs_needed > 0:
@@ -163,7 +163,7 @@ while qs_needed > 0:
         generated_qs.append(q.get('question'))
         qs_needed -= 1
 
-print(len(generated_qs))
+print('Found: ', len(generated_qs))
 print(generated_qs)
 
 print('\n')
@@ -199,14 +199,106 @@ print('\n')
 # Question 6
 '''
 Create a list containing 5 students,
-each student should have the following attribute;
+each student should have the following attributes;
 name, year, state, country and language. Atleast 3
-students should come from the same state, another 3
-of the same language, another 3 born the same
+students should come from the same state, 3
+of the same language, 3 born the same
 year.
 
-Using a while loop, get 3 students born the same year,
-2 from the same state and 2 born the same year.
+Using a while loop,
+(1) get all students from the same country,
+(2) 3 students born the same year,
+(3) 2 from the same state and 
+(4) 2 of the same language.
 
 print your result at the end.
 '''
+
+students = [
+    {'name':'Ahmad', 
+    'year':'2001',
+     'state':'Katsina',
+     'country':'Nigeria',
+     'language':'Hausa'
+     },
+    {'name':'Abdul', 
+    'year':'2001',
+     'state':'Katsina',
+     'country':'Nigeria',
+     'language':'Hausa'
+     },
+    {'name':'Aliyu', 
+    'year':'2001',
+     'state':'Katsina',
+     'country':'Nigeria',
+     'language':'Hausa'
+     },
+    {'name':'Johnson', 
+    'year':'2005',
+     'state':'California',
+     'country':'USA',
+     'language':'English'
+     },
+    {'name':'Samuel', 
+    'year':'2005',
+     'state':'California',
+     'country':'USA',
+     'language':'English'
+     },
+    {'name':'Sophie', 
+    'year':'2005',
+     'state':'California',
+     'country':'USA',
+     'language':'English'
+     },
+    {'name':'James', 
+    'year':'2005',
+     'state':'California',
+     'country':'USA',
+     'language':'English'
+     },
+]
+
+country = 'USA'
+year = '2005'
+state = 'California'
+language = 'English'
+
+same_country = []
+same_year = []
+same_state = []
+same_language = []
+
+while  len(same_year) < 3 or len(same_language) < 2 or len(same_state) < 2:
+    for student in students:
+        if student.get('country') == country and student.get('name') not in same_country:
+            same_country.append(student.get('name'))
+        if student.get('year') == year and len(same_year) < 3 and student.get('name') not in same_year:
+            same_year.append(student.get('name'))
+        if student.get('state') == state and len(same_state) < 2:
+            same_state.append(student.get('name'))
+        if student.get('language') == language and len(same_language) < 2:
+            same_language.append(student.get('name'))
+
+g_students = {country:same_country, year:same_year, state:same_state, language:same_language}
+
+print(g_students)
+
+print('\n')
+print('\n')
+print('\n')
+
+while len(same_country) < len([c for c in students if c.get('country') == country]) or len(same_year) < 2 or len(same_language) < 2 or len(same_state) < 2:
+    for std in students:
+        if std.get('country') == country:
+            same_country.append(std.get('name'))
+        if std.get('year') == year:
+            same_year.append(std.get('name'))
+        if std.get('language') == language:
+            same_language.append(std.get('name'))
+        if std.get('state') == state:
+            same_state.append(std.get('name'))
+
+g_students = {country:same_country, year:same_year, state:same_state, language:same_language}
+
+print(g_students)
