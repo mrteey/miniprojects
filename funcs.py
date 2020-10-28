@@ -124,8 +124,32 @@ print('\n')
 print('\n')
 
 
+
+shop = []
+# [{'id':'1', 'name':'carrot', 'price':100, 'stock':2}]
+
+def add_product(name, price, stock):
+    product = {'id':str(len(shop)+1), 'name':name, 'price':price, 'stock':stock}
+    shop.append(product)
+
+add_product('carrot', 10, 2)
+add_product('banana', 100, 5)
+add_product('orange', 200, 10)
+add_product('cashew', 150, 5)
+add_product('pineapple', 200, 15)
+
+print(shop)
+
+# product = {'id':'1', 'name':'carrot', 'price':100, 'stock':2}
+
+print('\n')
+print('\n')
+print('\n')
+print('\n')
+
+
 cart = {}
-#{'1':{'unit':2, 'price':100, 'name':'carrot'}, '2':{}}
+# {'1':{'unit':2, 'price':100, 'name':'carrot'}, '2':{}}
 
 def add_to_cart(product):
     '''
@@ -143,31 +167,14 @@ def add_to_cart(product):
         cart_product = {'unit':1, 'price':product.get('price'), 'name':product.get('name')}
         cart[product.get('id')] = cart_product
 
-shop = []
-
-def add_product(name, price, stock):
-    product = {'id':str(len(shop)+1), 'name':name, 'price':price, 'stock':stock}
-    shop.append(product)
-
-add_product('carrot', 10, 2)
-add_product('banana', 100, 5)
-add_product('orange', 200, 10)
-add_product('cashew', 150, 5)
-
-print(shop)
-
-# product = {'id':'1', 'name':'carrot', 'price':100, 'stock':2}
-
-print('\n')
-print('\n')
-print('\n')
-print('\n')
 
 for i in range(5):
     add_to_cart(choice(shop))
 # add_to_cart(product)
 
 print(cart)
+
+
 
 print('\n')
 print('\n')
@@ -178,7 +185,7 @@ def checkout(cart, is_paid=False):
     '''
     total: 145000
     products: [{'unit':2, 'total':200, 'name':'carrot'}]
-    if is_paid:Thank your for your business
+    if is_paid:Thank your for your patronage!
     '''
     total = 0
     products = [{'unit':cart.get(product).get('unit'), 'total':cart.get(product).get('unit')*cart.get(product).get('price'), 'name':cart.get(product).get('name')} for product in cart]
@@ -188,4 +195,110 @@ def checkout(cart, is_paid=False):
     return f'total: {total}\nproducts: {products}\n{thanks}'
 
 print(checkout(cart, True))
-    
+
+print('\n')
+print('\n')
+print('\n')
+print('\n')
+
+# {
+# '1':{'unit':2, 'price':100, 'name':'cashew'},
+#  '2':{'unit':2, 'price':100, 'name':'carrot'}
+# }
+# remove('1', 2)
+# {
+#  '2':{'unit':2, 'price':100, 'name':'carrot'}
+# }
+# 2 units of cashew removed succefully
+# product with id '1' not in cart
+# remove('2', 1)
+# {
+#  '2':{'unit':1, 'price':100, 'name':'carrot'}
+# }
+# 1 unit of carrot removed succefully
+# product with id '2' not in cart
+
+
+def sayHi(fname, lname):
+    print(f'Hi {fname} {lname}')
+
+sayHi('Ahmad', 'Maska')
+
+def productName(product_id):
+    for product in shop:
+        if product.get('id') == product_id:
+            return product.get('name')
+    return f'Product with id {product_id} does not exist'
+
+print(productName('12'))
+
+print('\n')
+print('\n')
+print('\n')
+
+def removeProduct(product_id, unit=1):
+    for num in cart:
+        if product_id == num:
+            cart[product_id]['unit'] -= unit
+            return f"{unit} unit(s) of {cart[product_id]['name']} removed successfully!"
+print(cart)
+print('\n')
+print(removeProduct('1', 2))
+print('\n')
+print(cart)
+
+print('\n')
+print('\n')
+print('\n')
+print('\n')
+
+def intro(name, address, age):
+    return f"My name is {name}, I live at {address} and I am {age} years old"
+
+def intro2(name, address, age):
+    print(f"My name is {name}, I live at {address} and I am {age} years old")
+
+def returnNum(num):
+    if num.isdigit():
+        return int(num)
+    return 0
+returnNum('1')
+
+def write(content, name='note.txt'):
+    with open(name, 'w') as mynote:
+        mynote.write(content)
+        mynote.close()
+    return 'Done!'
+content = 'This is a test'
+code = "print('hello world')"
+write(content)
+write(code, 'test.py')
+
+import csv
+
+from io import StringIO
+
+students = {'1':{'name':'Alex', 'age':'10', 'class':'Primary 2', 'dob':'2020'}, '2':{'name':'John', 'age':'13', 'class':'SS 2', 'dob':'2020'}, '3':{'name':'Abdurrahman', 'age':'16', 'class':'JS 2', 'dob':'2020'}}
+
+content = StringIO()
+writer = csv.writer(content)
+header = ['name', 'age', 'class', 'dob']
+writer.writerow(header)
+for student in students:
+    writer.writerow([students.get(student).get('name'), students.get(student).get('age'), students.get(student).get('class'), students.get(student).get('dob')])
+write(content.getvalue(), 'test.csv')
+
+
+#QUESTION: 
+"""
+(a) Mr. Samuel wants a function that will help him add products
+to his shop. Each product has a name, price and stock unit.
+
+(b) Mr. Samuel is happy with your function and wants to hire
+you to build another function that will help his customers
+add products from his shop to their cart.
+
+(c) Now Mr. Samuel is excited and want you to build another 
+function that will help his customers calculate how much they
+should pay for all the items in their cart.
+"""
