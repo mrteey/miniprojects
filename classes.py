@@ -1,4 +1,4 @@
-import random
+import random, arrow
 
 class Shoppingcart:
     def __init__(self, cart, market):
@@ -368,3 +368,46 @@ class1.show_class()
 class1.remove_student('Ahmad Umar')
 class1.remove_student('Barister Umar')
 class1.show_class()
+
+print('\n')
+print('\n')
+print('\n')
+
+class Person:
+    def __init__(self, name, dob_timestamp, complexion):
+        # name: str
+        # dob_timestamp: int (timestamp)
+        # complexion: str
+        self.name = name
+        self.dob = dob_timestamp
+        self.complexion = complexion
+    def current_age(self):
+        year_of_birth = arrow.get(self.dob).format('YYYY')
+        current_year = arrow.now().format('YYYY')
+        if current_year.isdigit() and year_of_birth.isdigit():
+            age = int(current_year) - int(year_of_birth)
+            print(age)
+            return age
+        print(0)
+        return 0
+    def color(self):
+        print(self.complexion)
+
+person1  = Person('Mansur', 1125354655, 'Dark Skin')
+person1.current_age()
+
+class Student(Person):
+    def __init__(self, name, dob, color, _class):
+        super().__init__(name, dob, color)
+        self._class = _class
+    def get_name(self):
+        print(self.name)
+    def get_class(self):
+        print(self._class)
+
+student1 = Student('Ahmad Umar', 117832612, 'Brown', 'JS One')
+
+student1.get_name()
+student1.current_age()
+student1.get_class()
+student1.color()
