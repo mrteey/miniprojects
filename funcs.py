@@ -302,3 +302,164 @@ add products from his shop to their cart.
 function that will help his customers calculate how much they
 should pay for all the items in their cart.
 """
+
+market = []
+
+def add_products(name, price, stock):
+    product = {'id':len(market)+1, 'name':name, 'price':price, 'stock':stock}
+    market.append(product)
+    return market
+add_products('Banana', 10, 2)
+add_products('Apple', 20, 3)
+add_products('Cashew', 40, 5)
+print(market)
+
+print('\n')
+print('\n')
+
+cart = {}
+
+# def add_to_cart(product):
+#     if product.get('id') in cart:
+#         cart_product = cart.get(product.get('id'))
+#         if cart_product.get('unit') < product.get('stock'):
+#             cart_product['unit'] += 1
+#             return cart
+
+# add_to_cart(shop[0])
+# print(cart)
+
+def add_to_cart(name, unit):
+    #We loop through all item in the market
+    #The market looks like this: [{'id':1, 'name':'Banana', 'price':10, 'stock':10}]
+    for item in market:
+        #item looks like {'id':1,'name':'Banana', 'price':10, 'stock':10}
+        if item.get('name') == name:
+            #item.get('name') looks like this: 'Banana'
+            product = {'name':name, 'unit':unit, 'price':item.get('price')}
+            if unit <= item.get('stock'):
+                #item.get('stock') looks like this: 10
+                if item.get('id') in cart:
+                    # item.get('id') looks like: '1'
+                    # cart looks like {'1':{'name':'Banana', 'unit':1}}
+                    cart[item.get('id')]['unit'] += unit
+                    # here we are saying somethign like: cart['1']={'name':'Banana', 'unit':1}
+                    item['stock'] -= unit
+                    # since item looks like {'id':1,'name':'Banana', 'price':10, 'stock':10}
+                    # we are deducting the unit in our argument from the stock above
+                    print(f'{unit} unit of {name} added successfully')
+                else:
+                    cart[item.get('id')] = product
+                    item['stock'] -= unit
+                    print(f'{unit} unit of {name} added successfully')
+            else:
+                print(f'There are no up to {unit} units of {name} in this market')
+
+add_to_cart('Cashew', 2)
+add_to_cart('Cashew', 2)
+add_to_cart('Cashew', 3)
+add_to_cart('Banana', 2)
+add_to_cart('Apple', 2)
+add_to_cart('Banana', 5)
+
+print(cart)
+print(market)
+add_to_cart('Cashew', 1)
+print(cart)
+print(market)
+
+print('\n')
+print('\n')
+print('\n')
+
+def add(num1, num2, num3):
+    return num1+num2+num3
+
+def name(fname):
+    return fname
+
+print(add(5,4,6))
+print(name('Ahmad'))
+
+print('\n')
+print('\n')
+print('\n')
+
+
+"""
+(a) Mr. Samuel wants a function that will help him add products
+to his shop. Each product has a name, price and stock unit.
+"""
+
+shop = {}
+
+def shopproduct(product, price=0, stock=0, new_name=None):
+    if product in shop:
+        # we update the price, theres no point adding to the price
+        if price:
+            shop[product]['price'] = price
+        # We add to the stock, because ideally thats what the user would do
+        shop[product]['stock'] += stock
+        # because negative stock value is allowed
+        # check if current stock value is < 1 and return 0 if true
+        # so we dont have any negative stock in the shop
+        if shop[product]['stock'] < 1:
+            shop.__delitem__(product)
+        if new_name:
+            shop[new_name] = shop[product]
+            shop.__delitem__(product)
+
+        print(f'{product} has been updated')
+    else:
+        shop[product]={'price':price, 'stock':stock}
+        print(f'{product} has been added')
+
+shopproduct('Banana')
+print(shop)
+shopproduct('Banana', 15, 5, 'Apple')
+print(shop)
+shopproduct('Milk', 15, 5)
+print(shop)
+shopproduct('Apple', 15, 5, 'Orange')
+print(shop)
+shopproduct('Orange', 20, 5)
+print(shop)
+shopproduct('Orange', 35, -5)
+print(shop)
+shopproduct('Orange', 35, -5)
+print(shop)
+shopproduct('Orange', 35, -5)
+print(shop)
+shopproduct('Orange', 35, 15)
+print(shop)
+shopproduct('Orange', new_name='Cake')
+print(shop)
+# shopproduct('Cake', stock=-15)
+# print(shop)
+
+print('\n')
+print('\n')
+print('\n')
+print('\n')
+
+print(cart)
+
+def checkout():
+    total = 0
+    for product in cart:
+        total+=cart[product]['price']*cart[product]['unit']
+    return total
+
+print('Please pay: ', checkout())
+
+print('\n')
+print('\n')
+print('\n')
+
+#Exercise
+"""
+1) Create a function that converts days to hours
+2) Create a function that converts hours to minutes 
+3) Create a function that converts minutes to seconds
+4) Using your functions above convert 20days to seconds
+"""
