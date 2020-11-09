@@ -292,23 +292,27 @@ shop3.add_product('Galaxy G20', 34000, 15)
 class Cart():
     '''
     A Shopping Cart Class:
-        content: type -> dict()
+        content: dict()
     Attributes:
-        add_product: returns type -> dict()
-        show: returns type -> dict()
+        add_product: returns dict()
+        show: returns dict()
     '''
     def __init__(self):
         self.content = {}
         # {'IT Central':[{'id':1, 'name':'Apple', 'unit':2}], 'MT Gadgets':[{}]}
+        # {'shopname':{1:{'name':'Apple'}}}
     def add_product(self, shop, id, unit):
-        product = {'id':id, 'name':shop.content.get(id).get('name'), 'unit':unit}
+        product = {'name':shop.content.get(id).get('name'), 'unit':unit}
         if unit <= shop.content.get(id).get('stock'):
             shop.content[id]['stock'] -= unit
             if shop.name in self.content:
-                self.content[shop.name].append(product)
+                if id in self.content[shop.name]:
+                    self.content[shop.name][id]['unit'] += unit
+                else:
+                    self.content[shop.name][id] = product
                 print(product.get('name'), 'added to cart successfully!')
                 return True
-            self.content[shop.name] = [product]
+            self.content[shop.name] = {id:product}
             print(product.get('name'), 'added to cart successfully!')
             return True
         print('Unit exceeds available stock')
