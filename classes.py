@@ -336,3 +336,35 @@ for i in range(len(shops)):
 print('\n')
 print('\n')
 cart1.show()
+
+print('\n')
+print('\n')
+print('\n')
+
+class Classes:
+    def __init__(self, name, class_teacher):
+        self.class_name = name
+        self.class_teacher = class_teacher
+        self._class = []
+    def add_student(self, name):
+        self._class.append(name)
+        print(name, 'added to ', self.class_name, 'successfully!')
+        return True
+    def remove_student(self,name):
+        if name in self._class:
+            self._class.remove(name)
+            print(name, 'removed from', self.class_name, 'successfully')
+        else:
+            print('student does not exist')    
+    def show_class(self):
+        print(self._class)
+        return self._class
+
+class1 = Classes('JS One', 'Mr. Alamin')
+class1.add_student('Abdul Bashir')
+class1.add_student('Alex Zisan')
+class1.add_student('Ahmad Umar')
+class1.show_class()
+class1.remove_student('Ahmad Umar')
+class1.remove_student('Barister Umar')
+class1.show_class()
