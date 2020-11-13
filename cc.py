@@ -6,6 +6,9 @@
 import requests
 from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QTextEdit, QComboBox
 
+apikey = '20b9a28a6a37cdb1ff95'
+base = 'https://free.currconv.com/api/v7'
+
 app = QApplication([])
 mainWindow = QWidget()
 mainWindow.setStyleSheet('background-color:white; color:black')
@@ -30,11 +33,9 @@ amount.setMaximumWidth(100)
 currencyFrom = QComboBox()
 currencyFrom.setMinimumHeight(30)
 currencyFrom.setMinimumWidth(100)
-currencyFrom.addItems(['NGN (₦)', 'USD ($)', 'EURO (€)', 'POUND (£)', 'YEN (¥)'])
 currencyTo = QComboBox()
 currencyTo.setMinimumHeight(30)
 currencyTo.setMinimumWidth(100)
-currencyTo.addItems(['NGN (₦)', 'USD ($)', 'EURO (€)', 'POUND (£)', 'YEN (¥)'])
 inputsLayout.addWidget(amount)
 inputsLayout.addWidget(currencyFrom)
 inputsLayout.addWidget(currencyTo)
@@ -70,11 +71,10 @@ def convert_offline(amount, _from, to):
     return value
 
 def convert_online(amount, _from, to):
-    apikey = '20b9a28a6a37cdb1ff95'
     _from = _from.split('(')[0]
     to = to.split('(')[0]
     amount = int(amount) if amount.isdigit() else 1
-    url = f'https://free.currconv.com/api/v7/convert?q={_from.strip()}_{to.strip()}&compact=ultra&apiKey={apikey}'
+    url = f'{base}/convert?q={_from.strip()}_{to.strip()}&compact=ultra&apiKey={apikey}'
     r = requests.get(url)
     rate = list(r.json().values())[0]
     value = rate*amount
@@ -85,6 +85,24 @@ def get_converter(amount, _from, to):
         return convert_online(amount, _from, to)
     except:
         return convert_offline(amount, _from, to)
+
+def set_currencies():
+    try:
+        url = f'{base}/currencies?apiKey={apikey}'
+        r = requests.get(url)
+        currency_list = []
+        currencies = r.json().get('results')
+        for currency in currencies:
+            currency_list.append(f"{currency} ({currencies.get(currency).get('currencySymbol', '')})")
+        currencyFrom.addItems(currency_list)
+        currencyTo.addItems(currency_list)
+    except Exception as e:
+        print(e)
+        currencyFrom.addItems(['NGN (₦)', 'USD ($)', 'EURO (€)', 'POUND (£)', 'YEN (¥)'])
+        currencyTo.addItems(['NGN (₦)', 'USD ($)', 'EURO (€)', 'POUND (£)', 'YEN (¥)'])
+    return True
+
+set_currencies()
 
 button.clicked.connect(lambda: get_converter(amount.toPlainText(), currencyFrom.currentText(), currencyTo.currentText()))
 mainWindow.show()
