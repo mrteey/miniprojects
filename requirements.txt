@@ -1,0 +1,12 @@
+# run pip install -r requirements.txt
+
+certifi==2020.11.8
+chardet==3.0.4
+et-xmlfile==1.0.1
+idna==2.10
+jdcal==1.4.1
+openpyxl==3.0.5
+PyQt5==5.15.1
+PyQt5-sip==12.8.1
+requests==2.25.0
+urllib3==1.26.2
