@@ -75,7 +75,6 @@ def convert_online(amount, _from, to):
     to = to.split('(')[0]
     amount = int(amount) if amount.isdigit() else 1
     url = f'https://free.currconv.com/api/v7/convert?q={_from.strip()}_{to.strip()}&compact=ultra&apiKey={apikey}'
-    print(url)
     r = requests.get(url)
     rate = list(r.json().values())[0]
     value = rate*amount
