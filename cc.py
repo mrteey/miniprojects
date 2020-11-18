@@ -74,8 +74,8 @@ def convert_online(amount, _from, to):
     _from = _from.split('(')[0]
     to = to.split('(')[0]
     amount = int(amount) if amount.isdigit() else 1
-    url = f'{base}/convert?q={_from.strip()}_{to.strip()}&compact=ultra&apiKey={apikey}'
-    r = requests.get(url)
+    api = f'{base}/convert?q={_from.strip()}_{to.strip()}&compact=ultra&apiKey={apikey}'
+    r = requests.get(api)
     rate = list(r.json().values())[0]
     value = rate*amount
     result.setText(f'{_from}{amount} equals to {to}{value}')
