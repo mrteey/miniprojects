@@ -7,7 +7,7 @@ states = Sandc()
 class Game(QWidget):
     def __init__(self):
         super().__init__()
-        self.setStyleSheet("background:url('globe.jpg'); color:black")
+        self.setStyleSheet('background-color:white; color:black')
         self.setWindowTitle('Game')
         self.setFixedWidth(300)
         self.setFixedHeight(300)
@@ -26,7 +26,7 @@ class Game(QWidget):
         self.answer.setPlaceholderText('Enter your answer here')
         self.submitButton = QPushButton('Submit')
         self.submitButton.clicked.connect(self.submit)
-        self.submitButton.setStyleSheet('color:black')
+        self.submitButton.setStyleSheet('background-color:black; color:white')
         self.questionLayout.addWidget(self.question)
         self.questionLayout.addWidget(self.answer)
         self.questionLayout.addWidget(self.submitButton)
