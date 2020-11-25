@@ -1,5 +1,6 @@
-from PyQt5.QtWidgets import QApplication, QWidget, QHBoxLayout, QVBoxLayout, QLabel, QListWidget, QTextEdit, QPushButton, QLineEdit, QFileDialog
+from PyQt5.QtWidgets import QApplication, QWidget, QHBoxLayout, QVBoxLayout, QLabel, QListWidget, QTextEdit, QPushButton, QLineEdit, QFileDialog, QListWidgetItem
 from PyQt5.QtGui import QPixmap
+from PyQt5.QtCore import Qt
 from shutil import copyfile
 import os
 
@@ -12,6 +13,7 @@ class faveMeal(QWidget):
         self.mainLayout = QHBoxLayout()
         self.foodLayout = QVBoxLayout()
         self.foodList = QListWidget()
+        self.foodList.setFixedWidth(200)
         self.foodList.itemSelectionChanged.connect(self.showFood)
         self.summaryLayout = QVBoxLayout()
         self.addButton = QPushButton('Add Food')
@@ -20,27 +22,48 @@ class faveMeal(QWidget):
         self.mainLayout.addLayout(self.summaryLayout)
         self.foodLayout.addWidget(self.addButton)
         self.foodLayout.addWidget(self.foodList)
-        self.image = QPixmap('food/default.jpg')
-        self.label = QLabel('default')
+        self.noimage = 'food/blank.png'
+        self.image = QPixmap(self.noimage)
+        self.label = QLabel()
         self.label.setPixmap(self.image)
         self.summary = QTextEdit('Select food to see summary')
+        self.summary.setFixedHeight(200)
         self.summary.setReadOnly(True)
         self.summaryLayout.addWidget(self.label)
         self.summaryLayout.addWidget(self.summary)
-        self.meals = {'tuwo':{'image':'food/tuwo.jpg', 'summary':"Tuwon shinkafa is a type of Nigerian and Niger dish from Niger and the northern part of Nigeria. It is a thick pudding prepared from a local rice or Maize or millet that is soft and sticky, and is usually served with different types of soups like Miyan kuka, Miyan kubewa, Miyan taushe."}}
+        self.meals = {}
     
     def populate(self):
         self.foodList.clear()
-        for m in self.meals:
-            self.foodList.addItem(m.title())
+        if self.meals:
+            for m in self.meals:
+                self.foodList.addItem(m.title())
+        else:
+            notification = QListWidgetItem('Add meals to see them here')
+            notification.setFlags(Qt.NoItemFlags)
+            self.foodList.addItem(notification)
     
     def showFood(self):
-        food = self.foodList.currentItem().text().lower()
-        image = self.meals.get(food).get('image')
-        summary = self.meals.get(food).get('summary')
-        self.image = QPixmap(image)
-        self.label.setPixmap(self.image)
-        self.summary.setText(summary)
+        try:
+            food = self.foodList.currentItem().text().lower()
+            image = self.meals.get(food).get('image')
+            summary = self.meals.get(food).get('summary')
+            self.image = QPixmap(image)
+            self.label.setScaledContents(True)
+            self.label.setPixmap(self.image)
+            self.summary.setText(summary)
+        except:
+            pass
+    
+    def keyPressEvent(self, event):
+        if event.key() == Qt.Key_Backspace:
+            # Delete items on delete press
+            food = self.foodList.currentItem().text()
+            if food:
+                self.meals.__delitem__(food.lower())
+                self.label.setPixmap(QPixmap(self.noimage))
+                self.summary.setText('Select food to see summary')
+                self.populate()
 
 class newFood(QWidget):
     def __init__(self):
@@ -68,14 +91,10 @@ class newFood(QWidget):
         self.image.clicked.connect(self.selectImage)
 
     def selectImage(self):
-        _file = QFileDialog.getOpenFileUrl(self, "Select Image")
-        # self.imageFile.setText()
-        # print(imageSelector.getExistingDirectory())
-        # print(imageSelector.getOpenFileUrl)
-        new_file = str(_file).replace("(PyQt5.QtCore.QUrl('", '').replace("'), 'All Files (*)')", '')
-        print(new_file)
-        filename = os.path.basename(new_file)
-        copyfile(new_file, 'food/'+filename)
+        file_name = QFileDialog.getOpenFileName(self, "Select Image", "","Image (*.jpg *.png)")
+        file_name = file_name[0]
+        self.imageFile.setText(file_name)
+        self.image.setText(file_name)
 
 def add(favemeals, newfood, cancel=False):
     if favemeals.isVisible():
@@ -85,10 +104,17 @@ def add(favemeals, newfood, cancel=False):
         if not cancel:
             food = newfood.food.text()
             summary = newfood.summary.toPlainText()
-            image = 'food/default.jpg'
+            image_src = newfood.imageFile.text() if newfood.imageFile.text() else 'food/default.jpg'
+            image = os.path.join('food', os.path.basename(image_src))
+            try:
+                copyfile(image_src, image)
+            except:
+                pass
             favemeals.meals[food.lower()] = {'image':image, 'summary':summary}
             favemeals.populate()
         newfood.food.setText('')
+        newfood.summary.setText('')
+        newfood.image.setText('Select Image')
         newfood.hide()
         favemeals.show()
 
